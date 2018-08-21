@@ -6,6 +6,10 @@ from sklearn.preprocessing import LabelEncoder, OneHotEncoder
 from sklearn.cross_validation import train_test_split
 from sklearn.preprocessing import StandardScaler
 
+from sklearn.linear_model import LinearRegression
+
+import matplotlib.pyplot as plt
+
 
 dataset = pd.read_csv('./../datasets/Data.csv')
 X = dataset.iloc[ : , : ].values # get all values [rows,columns]
@@ -36,16 +40,35 @@ X_train, X_test, Y_train, Y_test = train_test_split( X , Y , test_size = 0.2, ra
 
 print("\nwahid\n")
 
-print()
-print(X_test)
-print()
-print(X_train)
+
 
 sc_X = StandardScaler()
 X_train = sc_X.fit_transform(X_train)
 X_test = sc_X.fit_transform(X_test)
 
-print()
-print(X_test)
-print()
+dataset = pd.read_csv('../datasets/studentscores.csv')
+X = dataset.iloc[ : ,   : 1 ].values
+Y = dataset.iloc[ : , 1 ].values
+
+from sklearn.cross_validation import train_test_split
+X_train, X_test, Y_train, Y_test = train_test_split( X, Y, test_size = 1/4, random_state = 0) 
+
+print("XXXXXXXXXXXX")
 print(X_train)
+print("yyyyyyyyyyyy")
+print(Y_train)
+
+regressor = LinearRegression()
+regressor = regressor.fit(X_train, Y_train)
+
+Y_pred = regressor.predict(X_test)
+
+plt.scatter(X_train , Y_train, color = 'red')
+plt.plot(X_train , regressor.predict(X_train), color ='blue')
+plt.show()
+
+
+plt.scatter(X_test , Y_test, color = 'red') 
+plt.plot(X_test , regressor.predict(X_test), color ='blue')
+plt.show()
+print("\n\n\ndfsdfsdf\n\n\n\n")
